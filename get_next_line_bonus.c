@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nd-abreu <nd-abreu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 21:01:31 by nd-abreu          #+#    #+#             */
-/*   Updated: 2026/07/06 19:01:39 by nd-abreu         ###   ########.fr       */
+/*   Created: 2026/06/27 23:00:30 by nd-abreu          #+#    #+#             */
+/*   Updated: 2026/06/27 23:01:26 by nd-abreu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* o gnl consiste em programar uma funcao em C que le um 
-texto a partir de um file descriptor (fd) e retorna 
-uma linha por vez sem saber o tamanho do arquivo ou da 
-linha de antemao.
-*/
+// 
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static void	*ft_clean(char **storage_box)
 {
@@ -34,7 +30,7 @@ char	*ft_search_newline(int fd, char **storage_box)
 	bytes_read = 1;
 	while ((bytes_read > 0) && (!ft_strchr(*storage_box, '\n')))
 	{
-		buffer = malloc ((BUFFER_SIZE + 1) * sizeof(char));
+		buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!buffer)
 			return (ft_clean(storage_box));
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
@@ -54,26 +50,26 @@ char	*ft_search_newline(int fd, char **storage_box)
 
 char	*get_next_line(int fd)
 {
-	static char	*storage_box;
+	static char	*storage_box[MAX_FD];
 	char		*to_print;
 	char		*temp;
 	int			newline_pos;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAX_FD || BUFFER_SIZE <= 0)
 		return (NULL);
-	ft_search_newline(fd, &storage_box);
-	if (!storage_box || !*storage_box)
-		return (free(storage_box), storage_box = NULL, NULL);
-	if (!ft_strchr(storage_box, '\n'))
-		newline_pos = ft_strlen(storage_box);
+	ft_search_newline(fd, &storage_box[fd]);
+	if (!storage_box[fd] || !*storage_box[fd])
+		return (free(storage_box[fd]), storage_box[fd] = NULL, NULL);
+	if (!ft_strchr(storage_box[fd], '\n'))
+		newline_pos = ft_strlen(storage_box[fd]);
 	else
-		newline_pos = (ft_strchr(storage_box, '\n') - storage_box + 1);
-	to_print = ft_substr(storage_box, 0, newline_pos);
+		newline_pos = (ft_strchr(storage_box[fd], '\n') - storage_box[fd] + 1);
+	to_print = ft_substr(storage_box[fd], 0, newline_pos);
 	if (!to_print)
-		return (ft_clean(&storage_box));
-	temp = storage_box;
-	storage_box = ft_substr(storage_box, newline_pos,
-			ft_strlen(storage_box) - newline_pos);
+		return (ft_clean(&storage_box[fd]));
+	temp = storage_box[fd];
+	storage_box[fd] = ft_substr(storage_box[fd], newline_pos,
+			ft_strlen(storage_box[fd]) - newline_pos);
 	free(temp);
 	return (to_print);
 }

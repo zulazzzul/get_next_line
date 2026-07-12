@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nd-abreu <nd-abreu@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/17 21:35:06 by nd-abreu          #+#    #+#             */
-/*   Updated: 2026/07/06 19:02:06 by nd-abreu         ###   ########.fr       */
+/*   Created: 2026/06/27 23:24:49 by nd-abreu          #+#    #+#             */
+/*   Updated: 2026/06/28 23:53:20 by nd-abreu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *s)
 {
@@ -52,7 +52,7 @@ static char	*ft_strjoin_ncase(char *s)
 	char	*buffer;
 
 	i = 0;
-	buffer = malloc((ft_strlen(s) + 1) * sizeof(char));
+	buffer = malloc ((ft_strlen(s) + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
 	while (*s)
@@ -76,7 +76,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		else
 			return (ft_strjoin_ncase(s1));
 	}
-	buffer = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	buffer = malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
 	while (*s1)
